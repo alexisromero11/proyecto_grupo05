@@ -1,50 +1,44 @@
-# Comparación de modelos de clasificación
+# Etapa 3: Comparación de modelos
 
 ## 1. Objetivo
 
-Comparar cuatro modelos para predecir si una sesión de navegación en una tienda virtual termina en una compra (`Revenue`): un modelo base, regresión logística y dos versiones de una red neuronal.
+Comparar un modelo base trivial, una regresión logística y dos versiones de una red neuronal para predecir si una sesión de navegación terminará en una compra (`Revenue`).
 
-La comparación se realiza utilizando el conjunto de validación, manteniendo reservado el conjunto de prueba para la evaluación final.
+## 2. Metodología
 
-## 2. Resultados
+Se utilizó una división estratificada de los datos:
 
-| Métrica | Modelo base | Regresión logística | Red neuronal V1 | Red neuronal V2 |
-|---|---:|---:|---:|---:|
-| Accuracy | 0.8453 | 0.8480 | 0.8908 | 0.8913 |
-| Balanced accuracy | 0.5000 | 0.8016 | 0.7597 | 0.7386 |
-| Precision de compra | 0.0000 | 0.5060 | 0.6736 | 0.7014 |
-| Recall de compra | 0.0000 | 0.7343 | 0.5699 | 0.5175 |
-| F1 de compra | 0.0000 | 0.5991 | 0.6174 | 0.5956 |
+- Entrenamiento: 8,631 registros.
+- Validación: 1,849 registros.
+- Prueba: 1,850 registros.
 
-## 3. Análisis
+La proporción de compras en validación fue de aproximadamente 15.47 %. El preprocesador se ajustó únicamente con el conjunto de entrenamiento.
 
-### Modelo base
+Los cuatro modelos se evaluaron sobre el mismo conjunto de validación, con un umbral de clasificación de 0.5. El conjunto de prueba no se utilizó para seleccionar modelos.
 
-Predice siempre la clase mayoritaria, es decir, que la sesión no termina en compra. Obtiene una accuracy de 0.8453, pero no detecta ninguna compra. Por ello, sirve como referencia y no como solución final.
+## 3. Resultados de validación
 
-### Regresión logística
+| Modelo | Accuracy | Balanced accuracy | Precisión | Recall | F1 |
+|---|---:|---:|---:|---:|---:|
+| Modelo base | 0.8453 | 0.5000 | 0.0000 | 0.0000 | 0.0000 |
+| Regresión logística | 0.8480 | 0.8016 | 0.5060 | 0.7343 | 0.5991 |
+| Red neuronal V1 | 0.8886 | 0.7484 | 0.6724 | 0.5455 | 0.6023 |
+| Red neuronal V2 | 0.8956 | 0.7411 | 0.7291 | 0.5175 | 0.6053 |
 
-Obtiene un recall de compra de 0.7343 y una balanced accuracy de 0.8016. Es el modelo que mejor detecta las compras reales entre las cuatro alternativas evaluadas.
+Las métricas de precisión, recall y F1 corresponden a la clase positiva (`Revenue = True`).
 
-### Red neuronal V1
+## 4. Análisis
 
-Alcanza un F1 de compra de 0.6174, el mayor de los cuatro modelos. Su precision es 0.6736 y su recall es 0.5699. Presenta el mejor equilibrio entre precision y recall según el F1 obtenido con el umbral de clasificación utilizado.
+El modelo base alcanza una accuracy de 0.8453, pero no identifica ninguna compra. Esto evidencia que la exactitud por sí sola es insuficiente debido al desbalance de clases.
 
-### Red neuronal V2
+La regresión logística obtiene el mayor recall (0.7343) y la mayor balanced accuracy (0.8016). Detecta 210 de las 286 compras reales del conjunto de validación, aunque también produce falsos positivos.
 
-Obtiene la mayor accuracy (0.8913) y la mayor precision de compra (0.7014), pero su recall es 0.5175 y su F1 es 0.5956. Por tanto, su mayor accuracy no significa que sea la mejor alternativa para detectar compras.
+La red neuronal V1 alcanza un F1 de 0.6023, mientras que la V2 obtiene 0.6053. La V2 registra la mayor accuracy (0.8956), precisión (0.7291) y F1 (0.6053) de esta ejecución, pero su recall es de 0.5175.
 
-## 4. Conclusión provisional
+## 5. Conclusión provisional
 
-La red neuronal V1 es la candidata provisional si se prioriza el F1 de compra. La regresión logística es una alternativa importante si el objetivo principal es detectar una mayor proporción de sesiones que terminan en compra.
+No existe un modelo superior en todas las métricas. La regresión logística es preferible si la prioridad es detectar la mayor proporción posible de compras reales. La red neuronal V2 presenta el mejor F1 en esta ejecución.
 
-La selección definitiva deberá considerar el objetivo del proyecto, los costes relativos de los falsos positivos y falsos negativos y, si se ajusta el umbral, los resultados obtenidos en validación. El conjunto de prueba se utilizará únicamente para la evaluación final del modelo seleccionado.
+La selección definitiva deberá justificarse según el costo de los falsos positivos y falsos negativos, utilizando únicamente el conjunto de validación. Las redes neuronales pueden producir resultados ligeramente distintos entre ejecuciones debido a su entrenamiento estocástico.
 
-## 5. Consideraciones metodológicas
-
-- Los resultados corresponden al conjunto de validación.
-- El conjunto de prueba no se ha utilizado para seleccionar los modelos.
-- La variable objetivo es `Revenue`.
-- La distribución de clases está desequilibrada, por lo que no se utiliza la accuracy como único criterio.
-- Los resultados registrados corresponden al umbral de clasificación de 0.5 para los modelos que producen probabilidades.
-- Las cifras se registran a partir de las ejecuciones realizadas durante el desarrollo del proyecto.
+La evaluación final con el conjunto de prueba queda pendiente para la etapa de evaluación y versionado.
