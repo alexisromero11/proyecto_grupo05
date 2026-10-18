@@ -84,3 +84,22 @@ Con el umbral de 0.37 se identificaron 252 de las 286 compras reales, mientras q
 El resultado muestra que el umbral seleccionado mejora ligeramente la balanced accuracy y aumenta el recall, a cambio de una reducción de la precisión. Esta decisión es provisional y corresponde a la regresión logística; antes de la evaluación final deberá verificarse su coherencia con el modelo elegido y el objetivo del sistema.
 
 La selección se realizó únicamente con entrenamiento y validación. El conjunto de prueba no se utilizó.
+
+## Experimento adicional: selección de umbrales por modelo
+
+Se realizó un experimento para seleccionar el umbral de clasificación de cada modelo mediante el conjunto de validación. Se probaron umbrales entre 0.10 y 0.90, con incrementos de 0.01, y se utilizó la balanced accuracy como criterio principal, debido al desbalance entre sesiones con compra y sin compra.
+
+| Modelo | Umbral seleccionado | Balanced accuracy | Precisión | Recall | F1-score |
+|---|---:|---:|---:|---:|---:|
+| Modelo base | 0.50 | 0.5000 | 0.0000 | 0.0000 | 0.0000 |
+| Regresión logística | 0.37 | 0.8123 | 0.3859 | 0.8811 | 0.5367 |
+| Red neuronal V1 | 0.11 | 0.8303 | 0.4549 | 0.8462 | 0.5917 |
+| Red neuronal V2 | 0.19 | 0.8238 | 0.5138 | 0.7832 | 0.6205 |
+
+En esta ejecución, la red neuronal V1 obtuvo la mayor balanced accuracy (0.8303), mientras que la red neuronal V2 obtuvo la mayor precisión (0.5138) y el mayor F1-score (0.6205). La regresión logística alcanzó el mayor recall (0.8811).
+
+Estos resultados muestran que la selección del umbral modifica el equilibrio entre la detección de compras y las falsas alarmas. La red neuronal V1 destaca según la balanced accuracy, pero no es superior en todas las métricas.
+
+Los umbrales se seleccionaron con validación, por lo que los resultados son estimaciones de comparación y no una evaluación independiente. El entrenamiento estocástico de las redes neuronales también puede producir variaciones entre ejecuciones. La selección definitiva del modelo deberá considerar la finalidad del sistema y mantenerse separada de la evaluación final con el conjunto de prueba.
+
+El conjunto de prueba no se utilizó en este experimento.
