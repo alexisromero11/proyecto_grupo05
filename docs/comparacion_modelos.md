@@ -42,3 +42,20 @@ No existe un modelo superior en todas las métricas. La regresión logística es
 La selección definitiva deberá justificarse según el costo de los falsos positivos y falsos negativos, utilizando únicamente el conjunto de validación. Las redes neuronales pueden producir resultados ligeramente distintos entre ejecuciones debido a su entrenamiento estocástico.
 
 La evaluación final con el conjunto de prueba queda pendiente para la etapa de evaluación y versionado.
+
+## Experimento adicional: exclusión de variables
+
+Se evaluó una regresión logística excluyendo las variables `PageValues`, `BounceRates` y `ExitRates`, debido a que su disponibilidad durante la navegación debe analizarse antes de utilizarlas en un sistema de predicción anticipada.
+
+Los resultados obtenidos en el conjunto de validación fueron:
+
+| Métrica | Resultado |
+|---|---:|
+| Balanced accuracy | 0.6459 |
+| Precision | 0.2535 |
+| Recall | 0.6329 |
+| F1-score | 0.3620 |
+
+En comparación con la regresión logística que conserva todas las variables, el F1-score disminuyó de 0.5991 a 0.3620. Esto indica una reducción del rendimiento predictivo al excluir las tres variables.
+
+Este experimento constituye un análisis de sensibilidad y no demuestra por sí solo la existencia de fuga de información. Antes de seleccionar el modelo definitivo, se debe considerar si las variables utilizadas están disponibles en el instante en que se pretende realizar la predicción. El conjunto de prueba no se utilizó en este experimento.
