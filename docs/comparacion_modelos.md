@@ -41,7 +41,7 @@ Los resultados muestran que ningún modelo obtiene el mejor desempeño en todas 
 
 La regresión logística obtiene la mayor balanced accuracy (0.8016) y el mayor recall (0.7343), por lo que identifica una mayor proporción de las sesiones que terminan en compra. Sin embargo, su precisión (0.5060) indica que una parte importante de las predicciones positivas son falsos positivos.
 
-La red neuronal V1 obtiene un F1 de 0.6023 y la V2 un F1 de 0.6053. Aunque la V2 alcanza la mayor accuracy, precisión y F1 en esta ejecución, su recall es inferior al de la regresión logística. Por tanto, no se puede afirmar que la red neuronal sea superior en todos los aspectos.
+En la comparación inicial, utilizando un umbral de 0.50, la red neuronal V1 obtuvo un F1 de 0.6023 y la V2 un F1 de 0.6053. En el experimento posterior, al seleccionar el umbral de cada modelo mediante validación, la V1 alcanzó la mayor balanced accuracy (0.8303), mientras que la V2 obtuvo el mayor F1-score (0.6205) y la mayor precisión (0.5138). Estos resultados corresponden a experimentos distintos y no deben mezclarse. Ningún modelo es superior en todas las métricas.
 
 El experimento adicional mostró una disminución del F1 al excluir `PageValues`, `BounceRates` y `ExitRates`. Este resultado evidencia que las variables influyen en el rendimiento, pero no demuestra por sí mismo que exista fuga de información.
 
