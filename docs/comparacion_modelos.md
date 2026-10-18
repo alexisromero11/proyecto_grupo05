@@ -65,3 +65,22 @@ Los resultados obtenidos en el conjunto de validación fueron:
 En comparación con la regresión logística que conserva todas las variables, el F1-score disminuyó de 0.5991 a 0.3620. Esto indica una reducción del rendimiento predictivo al excluir las tres variables.
 
 Este experimento constituye un análisis de sensibilidad y no demuestra por sí solo la existencia de fuga de información. Antes de seleccionar el modelo definitivo, se debe considerar si las variables utilizadas están disponibles en el instante en que se pretende realizar la predicción. El conjunto de prueba no se utilizó en este experimento.
+
+## Experimento de selección del umbral
+
+Debido al desbalance de clases del dataset, se seleccionó el umbral de clasificación de la regresión logística mediante el conjunto de validación. Se consideró que los falsos positivos y los falsos negativos tienen una importancia similar, por lo que se utilizó la balanced accuracy como criterio principal.
+
+Se probaron umbrales entre 0.10 y 0.90, con incrementos de 0.01. El mejor resultado de la búsqueda se obtuvo con un umbral de 0.37.
+
+| Métrica | Umbral 0.50 | Umbral 0.37 |
+|---|---:|---:|
+| Balanced accuracy | 0.8016 | 0.8123 |
+| Precision | 0.5060 | 0.3859 |
+| Recall | 0.7343 | 0.8811 |
+| F1-score | 0.5991 | 0.5367 |
+
+Con el umbral de 0.37 se identificaron 252 de las 286 compras reales, mientras que 34 compras no fueron detectadas. También se obtuvieron 401 falsos positivos y 1,162 verdaderos negativos.
+
+El resultado muestra que el umbral seleccionado mejora ligeramente la balanced accuracy y aumenta el recall, a cambio de una reducción de la precisión. Esta decisión es provisional y corresponde a la regresión logística; antes de la evaluación final deberá verificarse su coherencia con el modelo elegido y el objetivo del sistema.
+
+La selección se realizó únicamente con entrenamiento y validación. El conjunto de prueba no se utilizó.
