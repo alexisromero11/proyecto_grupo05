@@ -37,11 +37,17 @@ La red neuronal V1 alcanza un F1 de 0.6023, mientras que la V2 obtiene 0.6053. L
 
 ## 5. Conclusión provisional
 
-No existe un modelo superior en todas las métricas. La regresión logística es preferible si la prioridad es detectar la mayor proporción posible de compras reales. La red neuronal V2 presenta el mejor F1 en esta ejecución.
+Los resultados muestran que ningún modelo obtiene el mejor desempeño en todas las métricas. El modelo base alcanza una accuracy de 0.8453, pero no identifica compras, por lo que no resulta adecuado para el objetivo del proyecto.
 
-La selección definitiva deberá justificarse según el costo de los falsos positivos y falsos negativos, utilizando únicamente el conjunto de validación. Las redes neuronales pueden producir resultados ligeramente distintos entre ejecuciones debido a su entrenamiento estocástico.
+La regresión logística obtiene la mayor balanced accuracy (0.8016) y el mayor recall (0.7343), por lo que identifica una mayor proporción de las sesiones que terminan en compra. Sin embargo, su precisión (0.5060) indica que una parte importante de las predicciones positivas son falsos positivos.
 
-La evaluación final con el conjunto de prueba queda pendiente para la etapa de evaluación y versionado.
+La red neuronal V1 obtiene un F1 de 0.6023 y la V2 un F1 de 0.6053. Aunque la V2 alcanza la mayor accuracy, precisión y F1 en esta ejecución, su recall es inferior al de la regresión logística. Por tanto, no se puede afirmar que la red neuronal sea superior en todos los aspectos.
+
+El experimento adicional mostró una disminución del F1 al excluir `PageValues`, `BounceRates` y `ExitRates`. Este resultado evidencia que las variables influyen en el rendimiento, pero no demuestra por sí mismo que exista fuga de información.
+
+Como el objetivo es predecir durante la navegación, la selección final también debe considerar qué variables están disponibles en el instante de la predicción. El conjunto de datos contiene registros por sesión y no permite demostrar, por sí solo, que todas las variables estén disponibles en tiempo real.
+
+Por ahora, la regresión logística y la red neuronal V2 son alternativas que deben considerarse según el equilibrio entre falsos positivos y falsos negativos. La elección definitiva deberá justificarse con los resultados de validación y la finalidad del sistema. La evaluación final con el conjunto de prueba se realizará en la etapa correspondiente.
 
 ## Experimento adicional: exclusión de variables
 
